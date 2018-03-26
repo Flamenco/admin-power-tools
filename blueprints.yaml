@@ -23,7 +23,7 @@
 #
 
 name: Admin Power Tools
-version: 0.1.0
+version: 0.1.1
 description: Power tools for Grav.
 icon: plug
 author:
@@ -99,6 +99,30 @@ form:
       validate:
         type: bool  
 
+    rename_page_enabled:
+      type: toggle
+      label: Rename Page
+      help: Rename a page and modify all page-name and page-slug references.
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool                      
+        
+    move_page_enabled:
+      type: toggle
+      label: Move Page
+      help: Move a page and modify all page-route references.
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool      
+        
     child_reordering_enabled:
       type: toggle
       label: Child Reordering
@@ -121,4 +145,5 @@ form:
         1: Show
         0: Hide
       validate:
-        type: bool              
+        type: bool        
+                  
