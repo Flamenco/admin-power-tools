@@ -102,7 +102,7 @@ class AdminPowerToolsPlugin extends Plugin
             //
             // RENDERERS
             //
-            
+
             $manager->registerService("renderer", [
                 "caption" => "Delete",
                 "scope" => ["edit:section"],
@@ -168,6 +168,9 @@ class AdminPowerToolsPlugin extends Plugin
 
     public function onTwigExtensions()
     {
+        $twig = $this->grav['twig']->twig;
+        $twig->addFunction(new \Twig_SimpleFunction('getPages', [$this, 'getPages']));
+        
         require_once "services/_nav-up-service.php";
     }
 
@@ -555,6 +558,27 @@ class AdminPowerToolsPlugin extends Plugin
                 $inEvent = false;
             }
         }
+    }
+
+    public function getPages()
+    {
+        $page = $this->grav['page'];
+        $ret = [];
+        $pages = $page->evaluate("@root.descendants");
+
+        array_push($ret, ['label' => '(root)', 'value' => "(root)", "id" => "", "route" => "*"]);
+
+        foreach ($pages as $p) {
+            array_push($ret, [
+                // for combo
+                'label' => $p->title(),
+                'value' => $p->id(),
+                // for others
+                'id' => $p->id(),
+                'route' => $p->route()
+            ]);
+        }
+        return $ret;
     }
 
     /**
