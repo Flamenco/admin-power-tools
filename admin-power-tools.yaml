@@ -33,3 +33,6 @@ reports_enabled: true
 
 child_reordering_enabled: true
 child_reordering_immediate: true
+
+move_page_enabled: false
+rename_page_enabled: false

@@ -24,10 +24,11 @@
  */
 {
     $config = \Grav\Common\Grav::instance()['config'];
-    $manager = \Twelvetone\Common\ServiceManager::getInstance();
-    
-    if ($config->get('plugins.admin-power-tools.move_page_enabled', true)) {
 
+    if ($config->get('plugins.admin-power-tools.move_page_enabled', false)) {
+
+        $manager = \Twelvetone\Common\ServiceManager::getInstance();
+        
         $bpMove = newBlueprint("move-page-custom");
 
         $formIdMovePage = 'move-page-custom';
