@@ -170,7 +170,7 @@ class AdminPowerToolsPlugin extends Plugin
     {
         $twig = $this->grav['twig']->twig;
         $twig->addFunction(new \Twig_SimpleFunction('getPages', [$this, 'getPages']));
-        
+
         require_once "services/_nav-up-service.php";
     }
 
@@ -265,7 +265,7 @@ class AdminPowerToolsPlugin extends Plugin
     public function onAdminTaskExecute($e)
     {
         $method = $e['method'];
-        if (!Utils::startsWith("task", $method)) {
+        if (!Utils::startsWith($method, "task")) {
             return false;
 
         }
