@@ -265,7 +265,7 @@ class AdminPowerToolsPlugin extends Plugin
     public function onAdminTaskExecute($e)
     {
         $method = $e['method'];
-        if (!startsWith("task", $method)) {
+        if (!Utils::startsWith("task", $method)) {
             return false;
 
         }
