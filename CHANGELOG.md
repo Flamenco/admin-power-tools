@@ -1,3 +1,9 @@
+# v0.1.3
+##  03/29/2018
+
+1. [](#bugfix)
+    * Use correct parameter order for startsWith()
+
 # v0.1.2
 ##  03/29/2018
 
