@@ -1,7 +1,13 @@
+# v0.1.2
+##  03/29/2018
+
+1. [](#bugfix)
+    * Fix reference to utility function startsWith()
+    
 # v0.1.1
 ##  03/26/2018
 
-1. [](#feature)
+1. [](#new)
     * Add options to enable move_page and rename_page
     
 2. [](#bugfix)
