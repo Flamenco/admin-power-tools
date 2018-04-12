@@ -1,3 +1,9 @@
+# v0.1.4
+##  04/11/2018
+
+1. [](#bugfix)
+    * Catch exceptions in version check 
+
 # v0.1.3
 ##  03/29/2018
 
