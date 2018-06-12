@@ -99,46 +99,6 @@ class AdminPowerToolsPlugin extends Plugin
 //                "url" => 'plugin://admin-power-tools/assets/titlebar_fix.css'
 //            ]);
 
-            //
-            // RENDERERS
-            //
-
-            $manager->registerService("renderer", [
-                "caption" => "Delete",
-                "scope" => ["edit:section"],
-                "order" => "last",
-                "render" => function () {
-                    return "<a class='button' onclick='_doDelete(); return false;'><i class='fa fa-trash'></i>Delete</a>";
-                },
-            ]);
-            $twig = $this->grav['twig'];
-            $manager->registerService("renderer", [
-                "caption" => "Fullscreen",
-                "scope" => ["edit:section"],
-                "order" => "last",
-                "render" => function () use ($twig) {
-                    return $twig->processTemplate("fullscreen.html.twig", ["targetSelector" => "#edit-area"]);
-                },
-            ]);
-            $manager->registerService("renderer", [
-                "caption" => "Back And Refresh",
-                "scope" => ["edit:section"],
-                "order" => "first",
-                "render" => function ($context) use ($twig) {
-                    // This will go back with refreshing but loose scroll position
-//                    return '<a class="button" onclick="window.location = document.referrer;"><i class="fa fa-reply"></i>Back</a>';
-                    // This will go back without refreshing but retain scroll position
-                    return '<a class="button" onclick="window.history.back()"><i class="fa fa-reply"></i>Back</a>';
-                }
-            ]);
-            $manager->registerService("renderer", [
-                "caption" => "Save",
-                "scope" => ["edit:section"],
-                "order" => "last",
-                "render" => function () {
-                    return "<a class='button' onclick='_doSave(); return false;'><i class='fa fa-save'></i>Save</a>";
-                },
-            ]);
         }
     }
 
