@@ -46,6 +46,7 @@ function _ajaxSubmit(form, callback) {
 }
 
 function _ajaxPost(path, params, method = 'post') {
+  return new Promise((resolve, reject) => {
     //method = method || "post"; // Set method to post by default if not specified.
 
     // The rest of this code assumes you are not using a library.
@@ -55,20 +56,22 @@ function _ajaxPost(path, params, method = 'post') {
     form.setAttribute("action", path);
 
     for (let key in params) {
-        if (params.hasOwnProperty(key)) {
-            const hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
+      if (params.hasOwnProperty(key)) {
+        const hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
 
-            form.appendChild(hiddenField);
-        }
+        form.appendChild(hiddenField);
+      }
     }
     document.body.appendChild(form);
 
     _ajaxSubmit(form, (e) => {
-        //console.log(e);
-        Grav.default.Utils.toastr.info("The operation completed.");
+      //console.log(e);
+      Grav.default.Utils.toastr.info("The operation completed.");
+      resolve(true)
     });
+  });
 }
     
