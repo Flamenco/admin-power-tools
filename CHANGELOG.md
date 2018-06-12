@@ -1,3 +1,9 @@
+# v0.1.6
+##  06/12/2018
+
+1. [](#feature)
+    * Add syntax highlight support for section editor
+    
 # v0.1.5
 ##  06/12/2018
 
