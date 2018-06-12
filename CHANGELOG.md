@@ -1,3 +1,12 @@
+# v0.1.5
+##  06/12/2018
+
+1. [](#feature)
+    * Add a Save+Back command to the section editor
+    
+2. [](#task)
+    * Refactor section editor actions
+
 # v0.1.4
 ##  04/11/2018
 
