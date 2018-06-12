@@ -53,7 +53,7 @@ use Twelvetone\Common\ServiceManager;
         "scope" => ["edit:section"],
         "order" => "first",
         "render" => function ($context) use ($twig) {
-            return '<a class="button" onclick="_doSave();window.history.back();return false;"><i class="fa fa-reply"></i>Save+Back</a>';
+            return '<a class="button" onclick="_doSave({goBack:true});return false;"><i class="fa fa-reply"></i>Save+Back</a>';
         }
     ]);
 

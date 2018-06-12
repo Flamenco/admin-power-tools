@@ -112,7 +112,7 @@
         {#<h1>{{ _section_name }}</h1>#}
 
         <script>
-          function _doSave() {
+          function _doSave(options) {
             let $editor = $('#editor');
             let content
             if ($editor[0].codeMirror) {
@@ -126,6 +126,10 @@
               section: '{{ _section }}',
               section_name,
               content
+            }).then(value => {
+              if (options && options.goBack){
+                window.history.back();
+              }
             })
           }
 
