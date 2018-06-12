@@ -10,6 +10,20 @@
 {% do assets.addJs('plugin://admin-power-tools/assets/ajax_util.js') %}
 {% do assets.addJs('plugin://admin-power-tools/assets/fullscreen_util.js') %}
 
+{% if config.plugins['admin-power-tools'].edit_section_syntax_enabled and config.plugins['editor'] and config.plugins['editor'].enabled %}
+    {# enable CodeMirror if the editor plugin is installed #}
+    {% do assets.addCss('plugin://editor/lib/codemirror/codemirror.css') %}
+    {% do assets.addJs('plugin://editor/lib/codemirror/codemirror.js') %}
+   
+    {% for service in service_list('language') %}
+        {% if service['id'] == 'md' %}
+            {% for dep in service.dependencies %}
+                {% do assets.add(dep) %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% block content %}
     {{ page.content }}
 
@@ -98,38 +112,44 @@
         {#<h1>{{ _section_name }}</h1>#}
 
         <script>
-            function _doSave() {
-                const content = $('#editor').val();
-                const section_name = $('#heading').val();
-                _ajaxPost(window.GravAdmin.config.base_url_relative + "/powertools/save-section", {
-                    route: '{{ _route }}',
-                    section: '{{ _section }}',
-                    section_name,
-                    content
-                })
+          function _doSave() {
+            let $editor = $('#editor');
+            let content
+            if ($editor[0].codeMirror) {
+              content = $editor[0].codeMirror.getValue()
+            } else {
+              content = $editor.val();
             }
+            const section_name = $('#heading').val();
+            _ajaxPost(window.GravAdmin.config.base_url_relative + "/powertools/save-section", {
+              route: '{{ _route }}',
+              section: '{{ _section }}',
+              section_name,
+              content
+            })
+          }
 
-            function _doMoveSectionToChildPage() {
-                const newContent = $('#editor').val();
-                const newSection = $('#heading').val();
+          function _doMoveSectionToChildPage() {
+            const newContent = $('#editor').val();
+            const newSection = $('#heading').val();
 
-                const context = {
-                    "section": "{{ _section }}",
-                    "route": "{{ _route }}",
-                    "new_section": newSection,
-                    "new_content": newContent
-                };
-                _nonAjaxAction('move-to-child', JSON.stringify(context), 'Move this section to a new child page?');
+            const context = {
+              "section": "{{ _section }}",
+              "route": "{{ _route }}",
+              "new_section": newSection,
+              "new_content": newContent
+            };
+            _nonAjaxAction('move-to-child', JSON.stringify(context), 'Move this section to a new child page?');
+          }
+
+          function _doDelete() {
+            if (confirm("Delete this section from the page?")) {
+              _ajaxPost(window.GravAdmin.config.base_url_relative + "/powertools/delete-section", {
+                route: '{{ _route }}',
+                section: '{{ _section }}'
+              })
             }
-
-            function _doDelete() {
-                if (confirm("Delete this section from the page?")) {
-                    _ajaxPost(window.GravAdmin.config.base_url_relative + "/powertools/delete-section", {
-                        route: '{{ _route }}',
-                        section: '{{ _section }}'
-                    })
-                }
-            }
+          }
         </script>
 
         <div id="edit-area">
@@ -148,6 +168,18 @@
             </div>
             <textarea id="editor">{{ get_page_section(_route, _section) }}</textarea>
         </div>
+
+        <script>
+          if (window.CodeMirror) {
+            var textarea = document.getElementById("editor");
+            var editor = CodeMirror.fromTextArea(textarea, {
+              lineNumbers: false,
+              mode: "markdown"
+            });
+            // This is used in save() to flag the textarea as CodeMirror enabled
+            textarea.codeMirror = editor;
+          }
+        </script>
 
     </div>
 {% endblock %}

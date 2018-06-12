@@ -26,7 +26,7 @@ enabled: true
 
 edit_page_enabled: true
 edit_section_enabled: true
-
+edit_section_syntax_enabled: true
 add_page_enabled: true
 
 reports_enabled: true

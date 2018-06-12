@@ -76,7 +76,19 @@ form:
         0: Disabled
       validate:
         type: bool
-        
+
+    edit_section_syntax_enabled:
+      type: toggle
+      label: Use CodeMirror if available
+      description: Enables syntax highlighing for the section editor. The editor plugin must be installed.
+      highlight: 1
+      default: 1
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+                
     add_page_enabled:
       type: toggle
       label: Additional <strong>Add Page</strong> options
