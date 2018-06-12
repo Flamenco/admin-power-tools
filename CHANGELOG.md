@@ -1,7 +1,13 @@
+# v0.1.7
+##  06/12/2018
+
+1. [](#bugfix)
+    * Make Save+Back asynchronous
+
 # v0.1.6
 ##  06/12/2018
 
-1. [](#feature)
+1. [](#new)
     * Add syntax highlight support for section editor
     
 # v0.1.5
