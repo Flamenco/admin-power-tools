@@ -1,8 +1,15 @@
-# v0.1.8
+# v0.1.9
 ##  06/22/2018
 
 1. [](#bugfix)
     * Update CSS styling for section editor - Fixes issues with update messages.
+# v0.1.8
+
+##  06/22/2018
+
+1. [](#bugfix)
+    * Update CSS styling for section editor - Fixes issues with update messages.
+
 # v0.1.7
 ##  06/12/2018
 
