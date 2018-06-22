@@ -49,12 +49,14 @@
             flex-direction: column;
         }
 
-        .content-padding {
+        .content-wrapper > * {
             display: flex;
             flex-direction: column;
         }
 
-        .content-padding .default-box-shadow:not(#messages), .content-padding .admin-block,.content-padding .CodeMirror {
+        .content-wrapper > * .default-box-shadow:not(#messages),
+        .content-wrapper > * .admin-block,
+        .content-wrapper > * .CodeMirror {
             display: flex;
             flex-direction: column;
             flex: 1
