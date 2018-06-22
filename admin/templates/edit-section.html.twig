@@ -14,7 +14,7 @@
     {# enable CodeMirror if the editor plugin is installed #}
     {% do assets.addCss('plugin://editor/lib/codemirror/codemirror.css') %}
     {% do assets.addJs('plugin://editor/lib/codemirror/codemirror.js') %}
-   
+
     {% for service in service_list('language') %}
         {% if service['id'] == 'md' %}
             {% for dep in service.dependencies %}
@@ -49,8 +49,15 @@
             flex-direction: column;
         }
 
-        .content-padding, .default-box-shadow, .admin-block {
-            height: 100% !important;
+        .content-padding {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-padding .default-box-shadow:not(#messages), .content-padding .admin-block,.content-padding .CodeMirror {
+            display: flex;
+            flex-direction: column;
+            flex: 1
         }
 
         /* for next version admin? */
@@ -127,7 +134,7 @@
               section_name,
               content
             }).then(value => {
-              if (options && options.goBack){
+              if (options && options.goBack) {
                 window.history.back();
               }
             })
