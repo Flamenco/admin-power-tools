@@ -1,5 +1,11 @@
+# v0.1.11
+##  09/22/2019
+
+1. [](#bugfix)
+    * Remove hardcoded admin paths from report URLs
+    
 # v0.1.10
-##  010/10/2018
+##  10/10/2018
 
 1. [](#bugfix)
     * Add beta version in dependency util
