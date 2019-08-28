@@ -1,5 +1,5 @@
-# v0.1.11
-##  09/22/2019
+# v0.1.12
+## 09/28/2019
 
 1. [](#bugfix)
     * Fix changelog date formatting
