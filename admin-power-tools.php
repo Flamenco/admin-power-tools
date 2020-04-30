@@ -59,16 +59,6 @@ class AdminPowerToolsPlugin extends Plugin
 
         $manager = ServiceManager::getInstance();
 
-        //
-        // ASSETS
-        //
-
-        $manager->registerService("asset", [
-            "type" => 'css',
-            "url" => "plugins://admin-power-tools/assets/scroll_fix.css",
-            "scope" => ["all"],
-            "order" => "last",
-        ]);
 
         if (!$this->isAdmin()) {
             $this->enable([
@@ -88,6 +78,16 @@ class AdminPowerToolsPlugin extends Plugin
 
             $manager = ServiceManager::getInstance();
             $manager->requireServices(__DIR__ . "/services");
+            //
+            // ASSETS
+            //
+
+            $manager->registerService("asset", [
+                "type" => 'css',
+                "url" => "plugins://admin-power-tools/assets/scroll_fix.css",
+                "scope" => ["all"],
+                "order" => "last",
+            ]);
 
             //
             // CSS
