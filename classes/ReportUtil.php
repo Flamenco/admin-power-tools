@@ -136,7 +136,7 @@ class ReportUtil
         $config = \Grav\Common\Grav::instance()['config'];
         $route = $config->get('plugins.admin.route');
         $base = '/' . trim($route, '/');
-        return $config->grav['base_url_relative'] . $base;
+        return isset($config->grav['base_url_relative']) ? $config->grav['base_url_relative'] . $base : $base;
 //        $admin_base = '/' . trim($config->get('plugins.admin.route'), '/');
 //        $admin_base = trim($config->get('plugins.admin.route'), '/');
 //        return $admin_base;
