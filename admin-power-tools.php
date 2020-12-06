@@ -485,14 +485,24 @@ class AdminPowerToolsPlugin extends Plugin
 				$content .= "\n\n[Edit Page On Grav](/admin/pages$path?target=_blank)";
 			}
 
-            if ($this->config->get("plugins.admin-power-tools.edit_section_enabled", true)) {
-                $base = $this->grav['base_url_relative'];
-                $href = $base . "/admin/powertools/edit-section" . $page->route();
-                $content = preg_replace_callback("~^(#+\s*.*)$~m", function ($m) use ($href) {
-                    $s = urlencode($m[1]);
-                    return "$m[0]&nbsp;<a href='$href?section=$s'><i class='fa fa-edit' style='font-size:initial' title='Edit Section'></i></a>";
-                }, $content);
-            }
+			if ($this->config->get("plugins.admin-power-tools.edit_section_enabled", true)) {
+				$base = $this->grav['base_url_relative'];
+				$href = $base . "/admin/powertools/edit-section" . $page->route();
+
+				//WORKAROUND see https://github.com/getgrav/grav/issues/2964
+				if (substr($href, -1) == '/') {
+					$href = substr($href, 0, -1);
+				}
+				if ($href === '/') {
+					$href = '';
+				}
+				//WORKAROUND end
+
+				$content = preg_replace_callback("~^(#+\s*.*)$~m", function ($m) use ($href) {
+					$s = urlencode($m[1]);
+					return "$m[0]&nbsp;<a href='$href?section=$s'><i class='fa fa-edit' style='font-size:initial' title='Edit Section'></i></a>";
+				}, $content);
+			}
 
 			$page->setRawContent($content);
 		}
