@@ -22,8 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-{
-    $config = \Grav\Common\Grav::instance()['config'];
+
+// This is broken, so disabling.
+if (false) {
+	$config = \Grav\Common\Grav::instance()['config'];
 
 	if ($config->get('plugins.admin-power-tools.move_page_enabled', false)) {
 
