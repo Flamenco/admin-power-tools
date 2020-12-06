@@ -298,7 +298,7 @@
 
                 $root = $grav['pages']->root();
                 page_link_walker($root, function ($link, $page) use (&$links, $base) {
-                    if (\Grav\Plugin\startsWith($base, $link)) {
+                    if (\Grav\Common\Utils::startsWith($base, $link)) {
                         $bin = 'internal';
                     } else {
                         $bin = 'external';
