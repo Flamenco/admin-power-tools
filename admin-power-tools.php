@@ -455,10 +455,16 @@ class AdminPowerToolsPlugin extends Plugin
 			// Add an edit-page link to bottom of page
 			$content = $page->getRawContent();
 
-            if ($this->config->get("plugins.admin-power-tools.edit_page_enabled", true)) {
-                $path = $this->grav['uri']->path();
-                $content .= "\n\n[Edit Page On Grav](/admin/pages/$path?target=_blank)";
-            }
+			if ($this->config->get("plugins.admin-power-tools.edit_page_enabled", true)) {
+				$path = $this->grav['uri']->path();
+				if ($path == '/') {
+					$page = $this->grav['pages']->find('/');
+					if ($page) {
+						$path = "/" . $page->slug();
+					}
+				}
+				$content .= "\n\n[Edit Page On Grav](/admin/pages$path?target=_blank)";
+			}
 
             if ($this->config->get("plugins.admin-power-tools.edit_section_enabled", true)) {
                 $base = $this->grav['base_url_relative'];
