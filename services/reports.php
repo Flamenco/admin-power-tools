@@ -157,7 +157,7 @@
                     $dom = new DOMDocument();
                     try {
                         $dom->loadHTML($page->content());
-                    } catch (Exception $e) {
+                    } catch (Throwable $e) {
                         // loadHTML will throw exception if content is empty
                         return;
                     }

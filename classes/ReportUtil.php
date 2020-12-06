@@ -48,7 +48,7 @@ function link_walker(Page $page, $visitor)
     $dom = new DOMDocument();
     try {
         $dom->loadHTML($page->content());
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         // loadHTML will throw exception if content is empty
         return;
     }
@@ -201,7 +201,7 @@ class ReportUtil
                         $tree['links'][] = self::stripOrder($m[1]);
                     }
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 // loadHTML will throw exception if content is empty;
             }
         });
@@ -267,7 +267,7 @@ class ReportUtil
                         }
                     }
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 // loadHTML will throw exception if content is empty;
             }
         });
