@@ -76,7 +76,7 @@ function page_link_walker(Page $page, $visitor)
 class ReportUtil
 {
     // the folder and media name
-    const rxMedia = "#.*/([^/]+/[^?\Z]+)#";
+    const rxMedia = "#.*/([^/]+/[^?]+)$#";
 
     static public function getSampleTree()
     {
