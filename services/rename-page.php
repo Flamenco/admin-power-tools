@@ -88,7 +88,8 @@ use Grav\Common\Filesystem\Folder;
                 Folder::move($origPath, $page->path());
                 //BUG not deleting/copying older folder
                 //$page->move($page->parent());
-                $page->save(false);
+				$grav['core-service-util']->save($page);
+
 
 
 				if ($rename_route_references) {

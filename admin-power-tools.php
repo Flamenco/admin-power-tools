@@ -202,13 +202,13 @@ class AdminPowerToolsPlugin extends Plugin
 					$page = new Page;
 					$page->template('admin-raw');
 
-                    if (!$targetPage) {
-                        $page->rawMarkdown('NOT FOUND');
-                    } else {
-                        $newContent = \MarkdownTools::removeSection($targetPage->rawMarkdown(), $section);
-                        $targetPage->rawMarkdown($newContent);
-                        $targetPage->save();
-                        $page->rawMarkdown("OK");
+					if (!$targetPage) {
+						$page->rawMarkdown('NOT FOUND');
+					} else {
+						$newContent = \MarkdownTools::removeSection($targetPage->rawMarkdown(), $section);
+						$targetPage->rawMarkdown($newContent);
+						$this->grav['core-service-util']->save($targetPage);
+						$page->rawMarkdown("OK");
 //                        $page->rawMarkdown($newContent);
 					}
 					$e->page = $page;
@@ -225,13 +225,13 @@ class AdminPowerToolsPlugin extends Plugin
 					$page = new Page;
 					$page->template('admin-raw');
 
-                    if (!$targetPage) {
-                        $page->rawMarkdown('NOT FOUND');
-                    } else {
-                        $newContent = \MarkdownTools::replaceSection($targetPage->rawMarkdown(), $section, $newSectionName, $newSection);
-                        $targetPage->rawMarkdown($newContent);
-                        $targetPage->save();
-                        $page->rawMarkdown("OK");
+					if (!$targetPage) {
+						$page->rawMarkdown('NOT FOUND');
+					} else {
+						$newContent = \MarkdownTools::replaceSection($targetPage->rawMarkdown(), $section, $newSectionName, $newSection);
+						$targetPage->rawMarkdown($newContent);
+						$this->grav['core-service-util']->save($targetPage);
+						$page->rawMarkdown("OK");
 //                        $page->rawMarkdown($newContent);
 					}
 					$e->page = $page;
@@ -307,10 +307,9 @@ class AdminPowerToolsPlugin extends Plugin
 					$newPage->rawMarkdown("");
 				}
 
-                $newPage->save();
-
-                $this->grav->redirect('/admin/pages' . $newPage->route());
-                break;
+				$this->grav['core-service-util']->save($newPage);
+				$this->grav->redirect('/admin/pages' . $newPage->route());
+				break;
 
 			case "new-page-custom-parent":
 			case "new-page-custom-child":
@@ -410,39 +409,39 @@ class AdminPowerToolsPlugin extends Plugin
 
 					$this->admin->session()->{$path} = $data;
 
-                    // Store the name and route of a page, to be used pre-filled defaults of the form in the future
-                    $this->admin->session()->lastPageName = $data['name'];
-                    $this->admin->session()->lastPageRoute = $data['route'];
-                    $this->setRedirect("{$this->view}/" . ltrim($path, '/'));
-                }
-                return true;
-            case 'move-page-custom':
-                $data = $_POST['data'];
-                $parentPageId = get($data, 'parentPageId', null);
-                if (!$parentPageId) {
-                    die("Target page not specified");
-                }
-                $sourceRoute = get($data, 'sourceRoute', null);
-                if (!$sourceRoute) {
-                    die("Source route not specified");
-                }
-                if ($parentPageId == "(root)") {
-                    $parentPage = $this->grav['pages']->root();
-                } else {
-                    $parentPage = $this->getPageById($parentPageId);
-                    if (!$parentPage) {
-                        die("Target page not found");
-                    }
-                }
-                $sourcePage = $this->grav['pages']->find("/" . $sourceRoute);
-                if (!$sourcePage) {
-                    die("Source page not found");
-                }
-                if ($parentPage == null || $sourcePage->id() !== $parentPage->id()) {
-                    $sourcePage->move($parentPage);
-                    $sourcePage->save();
-                    $this->grav->redirect('/admin/pages' . $sourcePage->route());
-                }
+					// Store the name and route of a page, to be used pre-filled defaults of the form in the future
+					$this->admin->session()->lastPageName = $data['name'];
+					$this->admin->session()->lastPageRoute = $data['route'];
+					$this->setRedirect("{$this->view}/" . ltrim($path, '/'));
+				}
+				return true;
+			case 'move-page-custom':
+				$data = $_POST['data'];
+				$parentPageId = get($data, 'parentPageId', null);
+				if (!$parentPageId) {
+					die("Target page not specified");
+				}
+				$sourceRoute = get($data, 'sourceRoute', null);
+				if (!$sourceRoute) {
+					die("Source route not specified");
+				}
+				if ($parentPageId == "(root)") {
+					$parentPage = $this->grav['pages']->root();
+				} else {
+					$parentPage = $this->getPageById($parentPageId);
+					if (!$parentPage) {
+						die("Target page not found");
+					}
+				}
+				$sourcePage = $this->grav['pages']->find("/" . $sourceRoute);
+				if (!$sourcePage) {
+					die("Source page not found");
+				}
+				if ($parentPage == null || $sourcePage->id() !== $parentPage->id()) {
+					$sourcePage->move($parentPage);
+					$this->grav['core-service-util']->save($sourcePage);
+					$this->grav->redirect('/admin/pages' . $sourcePage->route());
+				}
 
 				return true;
 
