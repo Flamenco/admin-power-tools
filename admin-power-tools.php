@@ -31,7 +31,7 @@ use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
 use Grav\Common\Utils;
 use RocketTheme\Toolbox\Event\Event;
-use Twelvetone\Common\DependencyUtil;
+use Twelvetone\Common\AdminPowerTools\DependencyUtil;
 use Twelvetone\Common\ServiceManager;
 
 include_once "classes/MarkdownTools.php";
