@@ -496,18 +496,21 @@ class AdminPowerToolsPlugin extends Plugin
 		return $slugNew;
 	}
 
-    function onAdminAfterSave($event)
-    {
-        $data = $_POST['data'];
-        if (isset($data['order-child'])) {
-            $parentPage = $event['object'];
-            $strOrder = $data['order-child'];
-            if (!empty($strOrder)) {
-                $pageOrder = explode(',', $strOrder);
-                self::_doReorder($parentPage, $pageOrder);
-            }
-        }
-    }
+	function onAdminAfterSave($event)
+	{
+		if (!isset($_POST['data'])) {
+			return;
+		}
+		$data = $_POST['data'];
+		if (isset($data['order-child'])) {
+			$parentPage = $event['object'];
+			$strOrder = $data['order-child'];
+			if (!empty($strOrder)) {
+				$pageOrder = explode(',', $strOrder);
+				self::_doReorder($parentPage, $pageOrder);
+			}
+		}
+	}
 
     public function onBlueprintCreated(Event $event)
     {
