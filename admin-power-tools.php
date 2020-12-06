@@ -512,11 +512,11 @@ class AdminPowerToolsPlugin extends Plugin
 		}
 	}
 
-    public function onBlueprintCreated(Event $event)
-    {
-        if (!DependencyUtil::checkDependencies($this, $issues)) {
-            return;
-        }
+	public function onBlueprintCreated(Event $event)
+	{
+		if (!DependencyUtil::checkDependencies($this)) {
+			return;
+		}
 
 		if ($this->config->get(' child_reordering_immediate', true)) {
 			static $inEvent = false;
