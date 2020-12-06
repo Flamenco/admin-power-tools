@@ -91,7 +91,7 @@ use Grav\Common\Filesystem\Folder;
                 $page->save(false);
 
 
-                if ($rename_route_references) {
+				if ($rename_route_references) {
                     $base = $grav['uri']->rootUrl(false);
                     $absPath = $base . $current_route;
                     $newAbsPage = $base . $page->route();

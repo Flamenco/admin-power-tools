@@ -43,32 +43,32 @@ include_once "classes/DependencyUtil.php";
  */
 class AdminPowerToolsPlugin extends Plugin
 {
-    public static function getSubscribedEvents()
-    {
-        return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 0],
-            'onBlueprintCreated' => ['onBlueprintCreated', 0]
-        ];
-    }
+	public static function getSubscribedEvents()
+	{
+		return [
+			'onPluginsInitialized' => ['onPluginsInitialized', 0],
+			'onBlueprintCreated' => ['onBlueprintCreated', 0]
+		];
+	}
 
-    public function onPluginsInitialized()
-    {
-        if (!DependencyUtil::checkDependencies($this)) {
-            return;
-        }
+	public function onPluginsInitialized()
+	{
+		if (!DependencyUtil::checkDependencies($this)) {
+			return;
+		}
 
-        $manager = ServiceManager::getInstance();
+		$manager = ServiceManager::getInstance();
 
-        //
-        // ASSETS
-        //
+		//
+		// ASSETS
+		//
 
-        $manager->registerService("asset", [
-            "type" => 'css',
-            "url" => "plugins://admin-power-tools/assets/scroll_fix.css",
-            "scope" => ["all"],
-            "order" => "last",
-        ]);
+		$manager->registerService("asset", [
+			"type" => 'css',
+			"url" => "plugins://admin-power-tools/assets/scroll_fix.css",
+			"scope" => ["all"],
+			"order" => "last",
+		]);
 
         if (!$this->isAdmin()) {
             $this->enable([
@@ -86,53 +86,53 @@ class AdminPowerToolsPlugin extends Plugin
                 'onAdminAfterSave' => ['onAdminAfterSave', 0],
             ]);
 
-            $manager = ServiceManager::getInstance();
-            $manager->requireServices(__DIR__ . "/services");
+			$manager = ServiceManager::getInstance();
+			$manager->requireServices(__DIR__ . "/services");
 
-            //
-            // CSS
-            //
+			//
+			// CSS
+			//
 
-            // This breaks dropdown actions (overflow-y:visible not working)
+			// This breaks dropdown actions (overflow-y:visible not working)
 //            $manager->registerService("asset", [
 //                "type" => "css",
 //                "url" => 'plugin://admin-power-tools/assets/titlebar_fix.css'
 //            ]);
 
-        }
-    }
+		}
+	}
 
-    public function onAdminTwigTemplatePaths($event)
-    {
-        $event['paths'] = array_merge($event['paths'], [__DIR__ . '/admin/templates']);
-        return $event;
-    }
+	public function onAdminTwigTemplatePaths($event)
+	{
+		$event['paths'] = array_merge($event['paths'], [__DIR__ . '/admin/templates']);
+		return $event;
+	}
 
-    public function onTwigTemplatePaths()
-    {
-        $this->grav['twig']->twig_paths[] = __DIR__ . '/site/templates';
-    }
+	public function onTwigTemplatePaths()
+	{
+		$this->grav['twig']->twig_paths[] = __DIR__ . '/site/templates';
+	}
 
 
-    public function onTwigInitialized()
-    {
-        $twig = $this->grav['twig']->twig;
-        $twig->addFunction(new \Twig_SimpleFunction("get_page_section", [$this, "get_page_section"]));
-    }
+	public function onTwigInitialized()
+	{
+		$twig = $this->grav['twig']->twig;
+		$twig->addFunction(new \Twig_SimpleFunction("get_page_section", [$this, "get_page_section"]));
+	}
 
-    public function onTwigInitialized_site()
-    {
-        $twig = $this->grav['twig']->twig;
-        $twig->addFunction(new \Twig_SimpleFunction("child_page_list", [$this, "child_page_list"]));
-    }
+	public function onTwigInitialized_site()
+	{
+		$twig = $this->grav['twig']->twig;
+		$twig->addFunction(new \Twig_SimpleFunction("child_page_list", [$this, "child_page_list"]));
+	}
 
-    public function onTwigExtensions()
-    {
-        $twig = $this->grav['twig']->twig;
-        $twig->addFunction(new \Twig_SimpleFunction('getPages', [$this, 'getPages']));
+	public function onTwigExtensions()
+	{
+		$twig = $this->grav['twig']->twig;
+		$twig->addFunction(new \Twig_SimpleFunction('getPages', [$this, 'getPages']));
 
-        require_once "services/_nav-up-service.php";
-    }
+		require_once "services/_nav-up-service.php";
+	}
 
     public function get_page_section($route, $section)
     {
@@ -142,20 +142,20 @@ class AdminPowerToolsPlugin extends Plugin
         }
         $content = $page->rawMarkdown();
 
-        return \MarkdownTools::getSectionContents($content, $section);
-    }
+		return \MarkdownTools::getSectionContents($content, $section);
+	}
 
-    public function child_page_list()
-    {
-        $page = $this->grav['page'];
-        return $this->grav['twig']->processTemplate('partials/child-pages.html.twig', ['page' => $page]);
-    }
+	public function child_page_list()
+	{
+		$page = $this->grav['page'];
+		return $this->grav['twig']->processTemplate('partials/child-pages.html.twig', ['page' => $page]);
+	}
 
-    public function onPageNotFound($e)
-    {
-        if (!$this->isAdmin()) {
-            return;
-        }
+	public function onPageNotFound($e)
+	{
+		if (!$this->isAdmin()) {
+			return;
+		}
 
         $route = '/' . $this->grav['admin']->location . "/" . $this->grav['admin']->route;
 
@@ -169,18 +169,18 @@ class AdminPowerToolsPlugin extends Plugin
                 $this->grav['session']->setFlashObject("section_name", \MarkdownTools::getSectionName($_GET['section']));
                 $this->grav['session']->setFlashObject("section_level", \MarkdownTools::getSectionLevel($_GET['section']));
 
-                $e->page = $page;
-                $e->stopPropagation();
-            }
-        } else {
-            switch ($route) {
-                case "/powertools/delete-section":
-                    $route = $_POST['route'];
-                    $section = $_POST['section'];
-                    $targetPage = $this->grav['pages']->find($route);
+				$e->page = $page;
+				$e->stopPropagation();
+			}
+		} else {
+			switch ($route) {
+				case "/powertools/delete-section":
+					$route = $_POST['route'];
+					$section = $_POST['section'];
+					$targetPage = $this->grav['pages']->find($route);
 
-                    $page = new Page;
-                    $page->template('admin-raw');
+					$page = new Page;
+					$page->template('admin-raw');
 
                     if (!$targetPage) {
                         $page->rawMarkdown('NOT FOUND');
@@ -190,20 +190,20 @@ class AdminPowerToolsPlugin extends Plugin
                         $targetPage->save();
                         $page->rawMarkdown("OK");
 //                        $page->rawMarkdown($newContent);
-                    }
-                    $e->page = $page;
-                    $e->stopPropagation();
-                    break;
-                case "/powertools/save-section":
-                    //TODO implement
-                    $route = $_POST['route'];
-                    $section = $_POST['section'];
-                    $newSection = $_POST['content'];
-                    $newSectionName = $_POST['section_name'];
-                    $targetPage = $this->grav['pages']->find($route);
+					}
+					$e->page = $page;
+					$e->stopPropagation();
+					break;
+				case "/powertools/save-section":
+					//TODO implement
+					$route = $_POST['route'];
+					$section = $_POST['section'];
+					$newSection = $_POST['content'];
+					$newSectionName = $_POST['section_name'];
+					$targetPage = $this->grav['pages']->find($route);
 
-                    $page = new Page;
-                    $page->template('admin-raw');
+					$page = new Page;
+					$page->template('admin-raw');
 
                     if (!$targetPage) {
                         $page->rawMarkdown('NOT FOUND');
@@ -213,138 +213,138 @@ class AdminPowerToolsPlugin extends Plugin
                         $targetPage->save();
                         $page->rawMarkdown("OK");
 //                        $page->rawMarkdown($newContent);
-                    }
-                    $e->page = $page;
-                    $e->stopPropagation();
-                    break;
-            }
-        }
-    }
+					}
+					$e->page = $page;
+					$e->stopPropagation();
+					break;
+			}
+		}
+	}
 
 
-    public function onAdminTaskExecute($e)
-    {
-        $method = $e['method'];
-        if (!Utils::startsWith($method, "task")) {
-            return false;
+	public function onAdminTaskExecute($e)
+	{
+		$method = $e['method'];
+		if (!Utils::startsWith($method, "task")) {
+			return false;
 
-        }
-        $taskName = substr($method, 4);
-        $taskName = mb_strtolower($taskName);
+		}
+		$taskName = substr($method, 4);
+		$taskName = mb_strtolower($taskName);
 
         switch ($taskName) {
             case "copy-page-custom":
                 $data = $_POST['data'];
 
-                $like = $data['page_like'];
-                $title = $data['title'];
-                $folder = $data['folder'];
+				$like = $data['page_like'];
+				$title = $data['title'];
+				$folder = $data['folder'];
 
-                $likePage = $this->grav['pages']->find($like);
-                if ($title == '') {
-                    $title = $likePage->title();
-                }
+				$likePage = $this->grav['pages']->find($like);
+				if ($title == '') {
+					$title = $likePage->title();
+				}
 
-                if ($folder == "") {
-                    $folder = \Grav\Plugin\Admin\Utils::slug($title);
-                }
-                $slug = \Grav\Plugin\Admin\Utils::slug($folder);
-                $order = \Grav\Plugin\Admin\AdminController::getNextOrderInFolder($likePage->parent()->path());
-                if (preg_match(PAGE_ORDER_PREFIX_REGEX, basename($likePage->path()))) {
-                    $use_order = true;
-                } else {
-                    $use_order = false;
-                }
+				if ($folder == "") {
+					$folder = \Grav\Plugin\Admin\Utils::slug($title);
+				}
+				$slug = \Grav\Plugin\Admin\Utils::slug($folder);
+				$order = \Grav\Plugin\Admin\AdminController::getNextOrderInFolder($likePage->parent()->path());
+				if (preg_match(PAGE_ORDER_PREFIX_REGEX, basename($likePage->path()))) {
+					$use_order = true;
+				} else {
+					$use_order = false;
+				}
 
-                $newPage = $likePage->copy($likePage->parent());
-                $newPage->header()->title = $title;
+				$newPage = $likePage->copy($likePage->parent());
+				$newPage->header()->title = $title;
 
-                //TODO message
-                if ($likePage->parent()->find("/$slug")) {
-                    $slugNew = AdminPowerToolsPlugin::getUniqueSlug($likePage->parent(), $slug);
+				//TODO message
+				if ($likePage->parent()->find("/$slug")) {
+					$slugNew = AdminPowerToolsPlugin::getUniqueSlug($likePage->parent(), $slug);
 
-                    if ($use_order) {
-                        $newPage->path($newPage->parent()->path() . '/' . sprintf("%02d", $order) . '.' . $slugNew);
-                    } else {
-                        $newPage->path($newPage->parent()->path() . '/' . $slugNew);
-                    }
-                    $newPage->route($newPage->parent()->route() . '/' . $slugNew);
-                    $newPage->rawRoute($newPage->parent()->rawRoute() . '/' . $slugNew);
+					if ($use_order) {
+						$newPage->path($newPage->parent()->path() . '/' . sprintf("%02d", $order) . '.' . $slugNew);
+					} else {
+						$newPage->path($newPage->parent()->path() . '/' . $slugNew);
+					}
+					$newPage->route($newPage->parent()->route() . '/' . $slugNew);
+					$newPage->rawRoute($newPage->parent()->rawRoute() . '/' . $slugNew);
 
-                } else {
-                    if ($use_order) {
-                        $newPage->path($newPage->parent()->path() . DS . sprintf("%02d", $order) . '.' . $folder);
-                    } else {
-                        $newPage->path($newPage->parent()->path() . '/' . $folder);
-                    }
-                    $newPage->route($newPage->parent()->route() . '/' . $slug);
-                    $newPage->rawRoute($newPage->parent()->rawRoute() . '/' . $slug);
-                }
+				} else {
+					if ($use_order) {
+						$newPage->path($newPage->parent()->path() . DS . sprintf("%02d", $order) . '.' . $folder);
+					} else {
+						$newPage->path($newPage->parent()->path() . '/' . $folder);
+					}
+					$newPage->route($newPage->parent()->route() . '/' . $slug);
+					$newPage->rawRoute($newPage->parent()->rawRoute() . '/' . $slug);
+				}
 
-                if ($e['copy_clear_content']) {
-                    $newPage->rawMarkdown("");
-                }
+				if ($e['copy_clear_content']) {
+					$newPage->rawMarkdown("");
+				}
 
                 $newPage->save();
 
                 $this->grav->redirect('/admin/pages' . $newPage->route());
                 break;
 
-            case "new-page-custom-parent":
-            case "new-page-custom-child":
-            case "new-page-custom-this":
-            case "new-page-custom":
-            case "new-page-child":
-                $data = $_POST['data'];
+			case "new-page-custom-parent":
+			case "new-page-custom-child":
+			case "new-page-custom-this":
+			case "new-page-custom":
+			case "new-page-child":
+				$data = $_POST['data'];
 
-                if ($data['use_media']) {
-                    //TODO we still need to respect settings
-                    // We need to create the page, so do copy instead
-                    $e["method"] = "taskCopy-page-custom";
+				if ($data['use_media']) {
+					//TODO we still need to respect settings
+					// We need to create the page, so do copy instead
+					$e["method"] = "taskCopy-page-custom";
 
-                    if (!$data['use_content']) {
-                        $e["copy_clear_content"] = true;
-                    }
+					if (!$data['use_content']) {
+						$e["copy_clear_content"] = true;
+					}
 
-                    return $this->onAdminTaskExecute($e);
-                }
+					return $this->onAdminTaskExecute($e);
+				}
 
-                $like = $data['page_like'];
-                $title = $data['title'];
+				$like = $data['page_like'];
+				$title = $data['title'];
 
-                $likePage = $this->grav['pages']->find($like);
+				$likePage = $this->grav['pages']->find($like);
 
-                if ($method === "taskNew-page-child") {
-                    $parentRoute = $likePage->route();
-                } else {
-                    if ($likePage->parent()) {
-                        $parentRoute = $likePage->parent()->route();
-                    } else {
-                        $parentRoute = "";
-                    }
-                }
+				if ($method === "taskNew-page-child") {
+					$parentRoute = $likePage->route();
+				} else {
+					if ($likePage->parent()) {
+						$parentRoute = $likePage->parent()->route();
+					} else {
+						$parentRoute = "";
+					}
+				}
 
-                if ($title === "") {
-                    $slug = $likePage->slug();
-                } else {
-                    $slug = \Grav\Plugin\Admin\Utils::slug($title);
-                }
-                $slug = AdminPowerToolsPlugin::getUniqueSlug($likePage->parent(), $slug);
+				if ($title === "") {
+					$slug = $likePage->slug();
+				} else {
+					$slug = \Grav\Plugin\Admin\Utils::slug($title);
+				}
+				$slug = AdminPowerToolsPlugin::getUniqueSlug($likePage->parent(), $slug);
 
-                $route = $parentRoute . '/' . $slug;
+				$route = $parentRoute . '/' . $slug;
 
-                $session = $this->grav['session'];
-                if ($data['use_content']) {
-                    $session->setFlashObject("use_content", $likePage->rawMarkdown());
-                } else {
-                    $session->setFlashObject("use_content", "");
-                }
+				$session = $this->grav['session'];
+				if ($data['use_content']) {
+					$session->setFlashObject("use_content", $likePage->rawMarkdown());
+				} else {
+					$session->setFlashObject("use_content", "");
+				}
 
-                if ($data['use_title']) {
-                    $session->setFlashObject("use_title", $likePage->title());
-                } else {
-                    $session->setFlashObject("use_title", $title);
-                }
+				if ($data['use_title']) {
+					$session->setFlashObject("use_title", $likePage->title());
+				} else {
+					$session->setFlashObject("use_title", $title);
+				}
 
 //                if ($data['use_body_classes']) {
 //                    $session->setFlashObject("use_body_classes", $likePage->header()->body_classes);
@@ -352,11 +352,11 @@ class AdminPowerToolsPlugin extends Plugin
 //                    $session->setFlashObject("use_body_classes", "");
 //                }
 
-                if ($data['use_taxonomy']) {
-                    $session->setFlashObject("use_taxonomy", $likePage->taxonomy());
-                } else {
-                    $session->setFlashObject("use_taxonomy", []);
-                }
+				if ($data['use_taxonomy']) {
+					$session->setFlashObject("use_taxonomy", $likePage->taxonomy());
+				} else {
+					$session->setFlashObject("use_taxonomy", []);
+				}
 
 //                if ($data['use_body_classes']) {
 //                    if (isset($likePage->header()->body_classes)) {
@@ -368,25 +368,25 @@ class AdminPowerToolsPlugin extends Plugin
 //                    $session->setFlashObject("use_body_classes", "");
 //                }
 
-                $session->setFlashObject("like_page", $likePage);
-                $session->setFlashObject("like_data", $data);
-                $session->setFlashObject("add_page_enabled", true);
-                $this->grav->redirect('/admin/pages' . $route);
+				$session->setFlashObject("like_page", $likePage);
+				$session->setFlashObject("like_data", $data);
+				$session->setFlashObject("add_page_enabled", true);
+				$this->grav->redirect('/admin/pages' . $route);
 
-                if (false) {
-                    $route = $data['route'] != '/' ? $data['route'] : '';
-                    $folder = $data['folder'];
-                    // Handle @slugify-{field} value, automatically slugifies the specified field
-                    if (substr($folder, 0, 9) == '@slugify-') {
-                        $folder = \Grav\Plugin\Admin\Utils::slug($data[substr($folder, 9)]);
-                    }
-                    $folder = ltrim($folder, '_');
-                    if (!empty($data['modular'])) {
-                        $folder = '_' . $folder;
-                    }
-                    $path = $route . '/' . $folder;
+				if (false) {
+					$route = $data['route'] != '/' ? $data['route'] : '';
+					$folder = $data['folder'];
+					// Handle @slugify-{field} value, automatically slugifies the specified field
+					if (substr($folder, 0, 9) == '@slugify-') {
+						$folder = \Grav\Plugin\Admin\Utils::slug($data[substr($folder, 9)]);
+					}
+					$folder = ltrim($folder, '_');
+					if (!empty($data['modular'])) {
+						$folder = '_' . $folder;
+					}
+					$path = $route . '/' . $folder;
 
-                    $this->admin->session()->{$path} = $data;
+					$this->admin->session()->{$path} = $data;
 
                     // Store the name and route of a page, to be used pre-filled defaults of the form in the future
                     $this->admin->session()->lastPageName = $data['name'];
@@ -422,35 +422,35 @@ class AdminPowerToolsPlugin extends Plugin
                     $this->grav->redirect('/admin/pages' . $sourcePage->route());
                 }
 
-                return true;
+				return true;
 
-            default:
-                return false;
-        }
-    }
+			default:
+				return false;
+		}
+	}
 
-    private function getPageById($pageId)
-    {
-        $allPages = $this->grav['pages']->instances();
-        foreach ($allPages as $page) {
-            if ($page->id() == $pageId) {
-                return $page;
-            }
-        }
-        return null;
-    }
+	private function getPageById($pageId)
+	{
+		$allPages = $this->grav['pages']->instances();
+		foreach ($allPages as $page) {
+			if ($page->id() == $pageId) {
+				return $page;
+			}
+		}
+		return null;
+	}
 
-    public function onPageContentRaw($e)
-    {
-        $adminCookie = session_name() . '-admin';
-        if (isset($_COOKIE[$adminCookie]) === false) {
-            return;
-        }
+	public function onPageContentRaw($e)
+	{
+		$adminCookie = session_name() . '-admin';
+		if (isset($_COOKIE[$adminCookie]) === false) {
+			return;
+		}
 
-        $page = $e['page'];
-        if (!isset($page->header()->editable) || $page->header()->editable === true) {
-            // Add an edit-page link to bottom of page
-            $content = $page->getRawContent();
+		$page = $e['page'];
+		if (!isset($page->header()->editable) || $page->header()->editable === true) {
+			// Add an edit-page link to bottom of page
+			$content = $page->getRawContent();
 
             if ($this->config->get("plugins.admin-power-tools.edit_page_enabled", true)) {
                 $path = $this->grav['uri']->path();
@@ -466,26 +466,26 @@ class AdminPowerToolsPlugin extends Plugin
                 }, $content);
             }
 
-            $page->setRawContent($content);
-        }
+			$page->setRawContent($content);
+		}
 
-    }
+	}
 
-    static function getUniqueSlug($parentPage, $slug)
-    {
-        if (!$parentPage->find("/$slug")) {
-            return $slug;
-        }
-        // remove the number at the end
-        $slugBase = preg_replace("#-?\d+$#", "", $slug);
-        $i = 1;
-        $slugNew = $slugBase . "-$i";
-        while ($parentPage->find("/$slugNew")) {
-            $i++;
-            $slugNew = $slugBase . "-$i";
-        }
-        return $slugNew;
-    }
+	static function getUniqueSlug($parentPage, $slug)
+	{
+		if (!$parentPage->find("/$slug")) {
+			return $slug;
+		}
+		// remove the number at the end
+		$slugBase = preg_replace("#-?\d+$#", "", $slug);
+		$i = 1;
+		$slugNew = $slugBase . "-$i";
+		while ($parentPage->find("/$slugNew")) {
+			$i++;
+			$slugNew = $slugBase . "-$i";
+		}
+		return $slugNew;
+	}
 
     function onAdminAfterSave($event)
     {
@@ -506,55 +506,55 @@ class AdminPowerToolsPlugin extends Plugin
             return;
         }
 
-        if ($this->config->get(' child_reordering_immediate', true)) {
-            static $inEvent = false;
-            /** @var \Grav\Common\Data\Blueprint $blueprint */
-            $blueprint = $event['blueprint'];
-            if (!$inEvent && $blueprint->get('form/fields/tabs', null, '/')) {
-                $inEvent = true;
-                $blueprints = new Blueprints(__DIR__ . '/blueprints');
-                $extends = $blueprints->get('child-pages');
-                $blueprint->extend($extends, true);
-                $inEvent = false;
-            }
-        }
-    }
+		if ($this->config->get(' child_reordering_immediate', true)) {
+			static $inEvent = false;
+			/** @var \Grav\Common\Data\Blueprint $blueprint */
+			$blueprint = $event['blueprint'];
+			if (!$inEvent && $blueprint->get('form/fields/tabs', null, '/')) {
+				$inEvent = true;
+				$blueprints = new Blueprints(__DIR__ . '/blueprints');
+				$extends = $blueprints->get('child-pages');
+				$blueprint->extend($extends, true);
+				$inEvent = false;
+			}
+		}
+	}
 
-    public function getPages()
-    {
-        $page = $this->grav['page'];
-        $ret = [];
-        $pages = $page->evaluate("@root.descendants");
+	public function getPages()
+	{
+		$page = $this->grav['page'];
+		$ret = [];
+		$pages = $page->evaluate("@root.descendants");
 
-        array_push($ret, ['label' => '(root)', 'value' => "(root)", "id" => "", "route" => "*"]);
+		array_push($ret, ['label' => '(root)', 'value' => "(root)", "id" => "", "route" => "*"]);
 
-        foreach ($pages as $p) {
-            array_push($ret, [
-                // for combo
-                'label' => $p->title(),
-                'value' => $p->id(),
-                // for others
-                'id' => $p->id(),
-                'route' => $p->route()
-            ]);
-        }
-        return $ret;
-    }
+		foreach ($pages as $p) {
+			array_push($ret, [
+				// for combo
+				'label' => $p->title(),
+				'value' => $p->id(),
+				// for others
+				'id' => $p->id(),
+				'route' => $p->route()
+			]);
+		}
+		return $ret;
+	}
 
-    /**
-     * @param $parentPage Page
-     * @param $pageOrder array
-     */
-    static public function _doReorder($parentPage, $pageOrder)
-    {
-        $grav = Grav::instance();
-        $childPage = $grav['pages']->find($parentPage->route() . "/" . $pageOrder[0]);
-        if ($childPage) {
-            $childPage = $childPage->move($childPage->parent());
-            $childPage->save($pageOrder);
-            $grav['messages']->add("Child pages reordered", 'info');
-        }
-    }
+	/**
+	 * @param $parentPage Page
+	 * @param $pageOrder array
+	 */
+	static public function _doReorder($parentPage, $pageOrder)
+	{
+		$grav = Grav::instance();
+		$childPage = $grav['pages']->find($parentPage->route() . "/" . $pageOrder[0]);
+		if ($childPage) {
+			$childPage = $childPage->move($childPage->parent());
+			$childPage->save($pageOrder);
+			$grav['messages']->add("Child pages reordered", 'info');
+		}
+	}
 }
 
 
