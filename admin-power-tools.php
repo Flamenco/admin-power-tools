@@ -134,13 +134,16 @@ class AdminPowerToolsPlugin extends Plugin
 		require_once "services/_nav-up-service.php";
 	}
 
-    public function get_page_section($route, $section)
-    {
-        $page = $this->grav['pages']->find($route);
-        if (!$page) {
-            return null;
-        }
-        $content = $page->rawMarkdown();
+	public function get_page_section($route, $section)
+	{
+		if ($route == '') {
+			$route = '/';
+		}
+		$page = $this->grav['pages']->find($route);
+		if (!$page) {
+			return null;
+		}
+		$content = $page->rawMarkdown();
 
 		return \MarkdownTools::getSectionContents($content, $section);
 	}
