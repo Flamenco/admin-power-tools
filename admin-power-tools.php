@@ -70,21 +70,22 @@ class AdminPowerToolsPlugin extends Plugin
 			"order" => "last",
 		]);
 
-        if (!$this->isAdmin()) {
-            $this->enable([
-                'onPageContentRaw' => ['onPageContentRaw', 0],
-                'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
-                'onTwigInitialized' => ['onTwigInitialized_site', 0],
-            ]);
-        } else {
-            $this->enable([
-                'onAdminTaskExecute' => ['onAdminTaskExecute', 0],
-                'onTwigExtensions' => ['onTwigExtensions', 0],
-                'onTwigInitialized' => ['onTwigInitialized', 0],
-                'onPageNotFound' => ['onPageNotFound', 1],
-                'onAdminTwigTemplatePaths' => ['onAdminTwigTemplatePaths', 0],
-                'onAdminAfterSave' => ['onAdminAfterSave', 0],
-            ]);
+		if (!$this->isAdmin()) {
+			$this->enable([
+				'onPageContentRaw' => ['onPageContentRaw', 0],
+				'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
+				'onTwigInitialized' => ['onTwigInitialized_site', 0],
+			]);
+		} else {
+			$this->enable([
+				'onAdminTaskExecute' => ['onAdminTaskExecute', 0],
+				'onAdminTaskExecute_Fix' => ['onAdminTaskExecute', 0],
+				'onTwigExtensions' => ['onTwigExtensions', 0],
+				'onTwigInitialized' => ['onTwigInitialized', 0],
+				'onPageNotFound' => ['onPageNotFound', 1],
+				'onAdminTwigTemplatePaths' => ['onAdminTwigTemplatePaths', 0],
+				'onAdminAfterSave' => ['onAdminAfterSave', 0],
+			]);
 
 			$manager = ServiceManager::getInstance();
 			$manager->requireServices(__DIR__ . "/services");
@@ -160,12 +161,17 @@ class AdminPowerToolsPlugin extends Plugin
 			return;
 		}
 
-        $route = '/' . $this->grav['admin']->location . "/" . $this->grav['admin']->route;
+		// As of Grav 1.7, the pages are not present unless this is called
+		if (method_exists($this->grav['admin'], 'enablePages')) {
+			$this->grav['admin']->enablePages();
+		}
 
-        if (Utils::startsWith($route, "/powertools/edit-section/")) {
-            if (preg_match("#/powertools/edit-section/(.*)#", $route, $m)) {
-                $page = new Page;
-                $page->init(new \SplFileInfo(__DIR__ . "/pages-internal/edit-section.md"));
+//		$adminBase = $this->grav['uri']->rootUrl(false) . '/' . trim($this->grav['admin']->base, '/');
+		$route = '/' . $this->grav['admin']->location . "/" . $this->grav['admin']->route;
+		if (Utils::startsWith($route, "/powertools/edit-section")) {
+			if (preg_match("#/powertools/edit-section(.*)#", $route, $m)) {
+				$page = new Page;
+				$page->init(new \SplFileInfo(__DIR__ . "/pages-internal/edit-section.md"));
 
 				$route = $m[1];
 				if (Utils::startsWith($route, '/')) {
@@ -246,9 +252,11 @@ class AdminPowerToolsPlugin extends Plugin
 		$taskName = substr($method, 4);
 		$taskName = mb_strtolower($taskName);
 
-        switch ($taskName) {
-            case "copy-page-custom":
-                $data = $_POST['data'];
+		$this->grav['admin']->enablePages();
+
+		switch ($taskName) {
+			case "copy-page-custom":
+				$data = $_POST['data'];
 
 				$like = $data['page_like'];
 				$title = $data['title'];

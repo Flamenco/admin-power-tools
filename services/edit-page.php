@@ -54,8 +54,9 @@
 //                "route" => $route,
 //                "section" => get($_GET, 'section', "")
 //            ],
-            'serverHandler' => function ($context) {
-                $grav = \Grav\Common\Grav::instance();
+			'serverHandler' => function ($context) {
+				$grav = \Grav\Common\Grav::instance();
+				$grav['admin']::enablePages();
 
 				$route = $context['route'];
 				$section = $context['section'];
@@ -89,8 +90,9 @@
 				$page->rawMarkdown($trimmed);
 				$page->save();
 
-                $grav->redirect('/admin/pages' . $newPage->route());
-            },
-        ]);
-    }
+				$grav['core-service-util']->updateAdminCache();
+				$grav->redirect('/admin/pages' . $newPage->rawRoute());
+			},
+		]);
+	}
 }
