@@ -167,10 +167,21 @@ class AdminPowerToolsPlugin extends Plugin
                 $page = new Page;
                 $page->init(new \SplFileInfo(__DIR__ . "/pages-internal/edit-section.md"));
 
-                $this->grav['session']->setFlashObject("route", "/" . $m[1]);
-                $this->grav['session']->setFlashObject("section", $_GET['section']);
-                $this->grav['session']->setFlashObject("section_name", \MarkdownTools::getSectionName($_GET['section']));
-                $this->grav['session']->setFlashObject("section_level", \MarkdownTools::getSectionLevel($_GET['section']));
+				$route = $m[1];
+				if (Utils::startsWith($route, '/')) {
+					$route = substr($route, 1);
+				}
+				$this->grav['session']->setFlashObject("route", "/" . $route);
+				$this->grav['session']->setFlashObject("section", $_GET['section']);
+				$this->grav['session']->setFlashObject("section_name", \MarkdownTools::getSectionName($_GET['section']));
+				$this->grav['session']->setFlashObject("section_level", \MarkdownTools::getSectionLevel($_GET['section']));
+//                $decodedPage = urldecode($m[1]);
+//                $decodedSection = urldecode($m[2]);
+//                $this->grav['session']->setFlashObject("route", $decodedPage);
+//                $this->grav['session']->setFlashObject("section", $decodedSection);
+//                $this->grav['session']->setFlashObject("section_name", \MarkdownTools::getSectionName($decodedSection));
+//                $this->grav['session']->setFlashObject("section_level", \MarkdownTools::getSectionLevel($decodedSection));
+//                $this->grav['session']->setFlashObject("route", "/" . $m[1]);
 
 				$e->page = $page;
 				$e->stopPropagation();
