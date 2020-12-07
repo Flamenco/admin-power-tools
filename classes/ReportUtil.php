@@ -157,14 +157,13 @@ class ReportUtil
 
     public static function view_url($page)
     {
-        $base = \Grav\Common\Grav::instance()['base_url_relative'];
-        $href = $base . $page->route();
-        return $href;
+    	$grav = \Grav\Common\Grav::instance();
+		$base = isset($grav['base_url_relative']) ? $grav['base_url_relative'] : '';
+		return $base . $page->route();
     }
 
     public static function edit_url($page)
     {
-        $base = \Grav\Common\Grav::instance()['base_url_relative'];
         $href = self:: getAdminBaseRelative() . "/pages" . $page->route();
         return $href;
     }
