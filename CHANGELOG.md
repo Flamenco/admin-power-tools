@@ -1,7 +1,16 @@
+# v0.1.14
+## 12/7/2020
+
+1. [](#improved)
+    * Remove hardcoded admin paths
+    * Update changelog sections
+2. [](#bugfix)      
+    * check that 'base_url_relative' is set
+   
 # v0.1.13
 ## 12/6/2020
 
-1. [](#improvement)
+1. [](#improved)
     * Fix whitespace formatting
     * Set minimum height for editor
 1. [](#bugfix)
