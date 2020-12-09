@@ -1,3 +1,9 @@
+# v0.1.17
+## 12/9/2020
+
+1. [](#bugfix)      
+    * Use an absolute path for admin routes
+   
 # v0.1.16
 ## 12/8/2020
 
