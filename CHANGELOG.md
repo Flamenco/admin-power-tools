@@ -1,3 +1,9 @@
+# v0.1.16
+## 12/8/2020
+
+1. [](#bugfix)      
+    * Use CoreServiceUtil to generate URLs
+   
 # v0.1.15
 ## 12/7/2020
 
