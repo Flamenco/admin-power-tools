@@ -1,7 +1,9 @@
 To build the vendor library:
 
+Run from the plugin root:
+
 ```sh
-webpack vendor.js bundle.js
+npx -p webpack@5 -p webpack-cli@5 webpack --mode none --config vendor/webpack.config.json --entry ./vendor/vendor.js --output-path vendor --output-filename bundle.js
 ```
 
 To use the library:
