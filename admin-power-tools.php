@@ -59,17 +59,6 @@ class AdminPowerToolsPlugin extends Plugin
 
 		$manager = ServiceManager::getInstance();
 
-		//
-		// ASSETS
-		//
-
-		$manager->registerService("asset", [
-			"type" => 'css',
-			"url" => "plugins://admin-power-tools/assets/scroll_fix.css",
-			"scope" => ["all"],
-			"order" => "last",
-		]);
-
 		if (!$this->isAdmin()) {
 			$this->enable([
 				'onPageContentRaw' => ['onPageContentRaw', 0],
@@ -89,6 +78,18 @@ class AdminPowerToolsPlugin extends Plugin
 
 			$manager = ServiceManager::getInstance();
 			$manager->requireServices(__DIR__ . "/services");
+
+			//
+			// ASSETS
+			//
+
+			// Only the admin needs the scroll fix
+			$manager->registerService("asset", [
+				"type" => 'css',
+				"url" => "plugins://admin-power-tools/assets/scroll_fix.css",
+				"scope" => ["admin"],
+				"order" => "last",
+			]);
 
 			//
 			// CSS
