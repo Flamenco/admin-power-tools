@@ -51,6 +51,16 @@ function enablePageOrdering(itemSelector, inputSelector) {
     }
 }
 
-$(document).ready(() => {
+// This script may render before jQuery (e.g. js_pipeline_before_excludes: false),
+// so wait for DOMContentLoaded, by which time every non-async script has run.
+function onReady(callback) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', callback);
+    } else {
+        callback();
+    }
+}
+
+onReady(() => {
     enablePageOrdering('#ordering-child', '[data-order-child]');
 });
