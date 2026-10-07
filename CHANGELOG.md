@@ -1,3 +1,10 @@
+# v0.1.19
+## 10/7/2026
+
+1. [](#bugfix)
+    * Remove vulnerable lodash from vendor bundle (CVE-2020-8203)
+    * Remove test and demo-only bower components
+
 # v0.1.18
 ## 8/31/2025
 
