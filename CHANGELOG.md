@@ -1,3 +1,9 @@
+# v0.1.20
+## 10/7/2026
+
+1. [](#bugfix)
+    * Fix child page reordering when jQuery loads after plugin scripts [#7](https://github.com/Flamenco/admin-power-tools/issues/7)
+
 # v0.1.19
 ## 10/7/2026
 
