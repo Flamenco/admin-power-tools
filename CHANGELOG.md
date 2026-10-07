@@ -1,3 +1,9 @@
+# v0.1.21
+## 10/7/2026
+
+1. [](#bugfix)
+    * Load scroll_fix.css only in the admin [#4](https://github.com/Flamenco/admin-power-tools/pull/4)
+
 # v0.1.20
 ## 10/7/2026
 
